@@ -1,61 +1,43 @@
 import React, { Component } from 'react';
 
-class Question extends Component {
-  constructor(props){
+export default class Question extends Component {
+  constructor(props) {
     super(props)
     this.state = {
-        backgroundColor: "white"
-      }
+      trueColor: "white",
+      falseColor: "white"
     }
-  
-  handleTrueClick = (event) => {
-  
-    debugger
-    let newState = this.state
-    this.props.answer === event.target.className ? this.greenColor() : this.redColor()
   }
 
-
-  greenColor = () => {
-    
-    this.setState({
-      backgroundColor: "green"
-    })
+  handleClick = (e) => {
+    if(e.target.value === "true") {
+      if(this.props.answer.toString() === e.target.value) {
+        return this.setState({...this.state, trueColor: "green"})
+      } else this.setState({...this.state, trueColor: "red"})
+    } else if(e.target.value === "false") {
+      if(this.props.answer.toString() === e.target.value) {
+        return this.setState({...this.state, falseColor: "green"})
+      } else this.setState({...this.state, falseColor: "red"})
+    }
   }
-
-  redColor = () => {
-    this.setState({
-    backgroundColor: "red"
-    })
-  }
-
-  handleFalseClick = (event) => {
-  
-    debugger
-    let newState = this.state
-    this.props.answer === event.target.className ? this.greenColor() : this.redColor()
-  }
-
 
   render() {
     const trueStyle = {
-      backgroundColor: this.state.trueStyle
+      backgroundColor: this.state.trueColor
     }
 
-    const falseStyle = { 
-      backgroundColor: this.state.falseStyle
+    const falseStyle = {
+      backgroundColor: this.state.falseColor
     }
+
     return (
       <li>
         {this.props.text}
-        <div value={this.props.answer}>
-          <button className="true" style={trueStyle} onClick={this.handleTrueClick}>True</button>
-          <button className="false" style={falseStyle} onClick={this.handleFalseClick}>False</button>
-        </div>
+        <br></br>
+        <button value={true} style={trueStyle} onClick={this.handleClick}>True</button>
+        <button value={false} style={falseStyle} onClick={this.handleClick}>False</button>
       </li>
     );
   }
 
 }
-
-export default Question;
